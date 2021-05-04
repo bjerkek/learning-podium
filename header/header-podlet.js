@@ -1,6 +1,11 @@
 const express = require('express');
 const Podlet = require('@podium/podlet');
+
 const app = express();
+
+const domain = 'http://localhost';
+const port = '7100';
+const url = `${domain}:${port}`;
 
 const podlet = new Podlet({
     name: 'header',
@@ -24,4 +29,6 @@ app.get(podlet.manifest(), (req, res) => {
     res.status(200).send(podlet);
 });
 
-app.listen(7100);
+app.listen(port, () => {
+    console.log(url);
+});

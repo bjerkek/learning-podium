@@ -1,10 +1,33 @@
 const express = require('express');
 const Layout = require('@podium/layout');
+const utils = require('@podium/utils');
+const template = require('../../template');
+
 const app = express();
+
+const domain = 'http://localhost';
+const port = '7000';
+const url = `${domain}:${port}`;
 
 const layout = new Layout({
     name: 'loansLayout',
     pathname: '/loans',
+});
+
+layout.view((incoming, content) => {
+    return `<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            ${incoming.css.map(utils.buildLinkElement).join('\n')}
+            <title>${incoming.view.title}</title>
+        </head>
+        <body>
+            ${content}
+            ${incoming.js.map(utils.buildScriptElement).join('\n')}
+        </body>
+    </html>`;
 });
 
 const headerPodlet = layout.client.register({
@@ -26,21 +49,23 @@ app.use(layout.middleware());
 
 app.get('/loans', async (req, res) => {
     const incoming = res.locals.podium;
-    const content = await Promise.all([
+
+    const [header, myLoans, feedback] = await Promise.all([
         headerPodlet.fetch(incoming),
         myLoansPodlet.fetch(incoming),
-        feedbackPodlet.fetch(incoming),
+        feedbackPodlet.fetch(incoming)
     ]);
-
-    incoming.view.title = 'Loans';
     
+    incoming.podlets = [header, myLoans, feedback];
+    incoming.view.title = 'Loans';
+
     res.podiumSend(`
-        <div>
-            <div>${content[0]}</div>
-            <div>${content[1]}</div>
-            <div>${content[2]}</div>
-        </div>
+        <div>${header}</div>
+        <div>${myLoans}</div>
+        <div>${feedback}</div>
     `);
 });
 
-app.listen(7000);
+app.listen(port, () => {
+    console.log(url);
+});

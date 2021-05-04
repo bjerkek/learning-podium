@@ -1,7 +1,6 @@
 const express = require('express');
 const Layout = require('@podium/layout');
 const utils = require('@podium/utils');
-const template = require('../../template');
 
 const app = express();
 

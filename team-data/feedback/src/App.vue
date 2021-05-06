@@ -1,5 +1,5 @@
 <template>
-  <div id="uniqueName">
+  <div id="feedbackPodlet">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style>
-#uniqueName {
+#feedbackPodlet {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

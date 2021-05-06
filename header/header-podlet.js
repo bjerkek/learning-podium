@@ -21,13 +21,16 @@ app.use(podlet.middleware());
 
 app.get(podlet.content(), (req, res) => {
     res.status(200).podiumSend(`
-        <header>This is our nice header</header>
+        <app-header></app-header>
     `);
 });
 
 app.get(podlet.manifest(), (req, res) => {
     res.status(200).send(podlet);
 });
+
+app.use('/js', express.static('src'));
+podlet.js({ value: `${url}/js/header.js` });
 
 app.listen(port, () => {
     console.log(url);

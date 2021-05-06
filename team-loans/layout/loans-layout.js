@@ -6,7 +6,7 @@ const app = express();
 
 const domain = 'http://localhost';
 const port = '7000';
-const url = `${domain}:${port}`;
+const url = `${domain}:${port}/loans`;
 
 const layout = new Layout({
     name: 'loansLayout',
@@ -59,9 +59,9 @@ app.get('/loans', async (req, res) => {
     incoming.view.title = 'Loans';
 
     res.podiumSend(`
-        <div>${header}</div>
-        <div>${myLoans}</div>
-        <div>${feedback}</div>
+        ${header}
+        ${myLoans}
+        ${feedback}
     `);
 });
 
